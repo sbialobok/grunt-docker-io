@@ -27,7 +27,8 @@ module.exports = function(grunt) {
       pushLocation: DOCKER_HUB_URL,
       username: process.env.USER,
       push: true,
-      force: false
+      force: false,
+      login: true
     });
 
     var done = this.async();
@@ -55,8 +56,8 @@ module.exports = function(grunt) {
       return buildName;
     }
 
-    // Check that user is logged in
-    runIf(true, function(){
+    // Check that user is logged in, if the registry requires it
+    runIf(opts.login, function(){
       var loginOpts = ['login']
       if(opts.pushLocation !== DOCKER_HUB_URL) {
         loginOpts.push(opts.pushLocation)
